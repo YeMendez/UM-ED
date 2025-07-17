@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Escuela Digital Huechuraba - Universidad Mayor</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      font-size: 1.4em;
+      background-color: #f2f2f2;
+      color: #333;
+      padding: 20px;
+    }
+    #contenedor {
+      max-width: 800px;
+      margin: auto;
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    button {
+      font-size: 1em;
+      padding: 12px 24px;
+      margin: 10px 0;
+      border: none;
+      background-color: #0077cc;
+      color: white;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    input[type="text"] {
+      font-size: 1em;
+      padding: 10px;
+      width: 100%;
+      margin-top: 10px;
+    }
+    .oculto {
+      display: none;
+    }
+    .mensaje {
+      margin: 20px 0;
+      padding: 10px;
+      background-color: #e0f7fa;
+      border-left: 5px solid #0077cc;
+    }
+  </style>
+</head>
+<body>
+  <div id="contenedor">
+    <div style="display: flex; align-items: center; margin-bottom: 20px;">
+      <img src="logo_umayor.jpeg" alt="Logo Universidad Mayor" style="height: 60px; margin-right: 15px;">
+      <h1 style="margin: 0; font-size: 1.6em;">Escuela Digital Huechuraba - Universidad Mayor</h1>
+    </div>
+
+    <div id="pasoRepaso">
+      <h2>🌟 Repaso antes de comenzar</h2>
+      <ul>
+        <li>🖱️ <strong>Clic izquierdo:</strong> el botón principal del mouse, se usa para seleccionar o avanzar.</li>
+        <li>🖱️ <strong>Clic derecho:</strong> muestra un menú con más opciones. No siempre lo usaremos.</li>
+        <li>⌨️ <strong>Minúscula:</strong> ejemplo: <code>juanita</code></li>
+        <li>⬆️ <strong>Mayúscula (Shift):</strong> mantener presionada <strong>Shift</strong> y escribir: <code>JUANITA</code></li>
+        <li>🔒 <strong>BloqMayús (Mayúscula fija):</strong> activa las letras grandes sin mantener Shift.</li>
+        <li>✏️ <strong>Primera letra en mayúscula:</strong> <code>Juanita</code></li>
+      </ul>
+      <p>No te preocupes si algo no sale perfecto. ¡Estamos aprendiendo juntos! 😊</p>
+      <button onclick="mostrarPaso(0)">Comenzar</button>
+    </div>
+
+    <div id="paso0" class="oculto">
+      <h2>Bienvenido/a al curso digital para personas mayores de Huechuraba</h2>
+      <p>Vamos a practicar el uso del teclado y el mouse. No te preocupes por equivocarte, ¡lo importante es intentarlo! 😊</p>
+      <button onclick="mostrarPaso(1)">Comenzar</button>
+    </div>
+
+    <div id="paso1" class="oculto">
+      <p><strong>Haz clic en el botón de abajo para continuar:</strong></p>
+      <button onclick="mostrarPaso(2)">Continuar</button>
+    </div>
+
+    <div id="paso2" class="oculto">
+      <p><strong>Haz clic con el botón derecho del mouse sobre este cuadro:</strong></p>
+      <div oncontextmenu="eventoClicDerecho(event)" style="border: 2px dashed #aaa; padding: 20px;">Haz clic derecho aquí</div>
+      <p id="mensajeClicDerecho" class="mensaje oculto">¡Muy bien! Has usado el botón derecho correctamente.</p>
+    </div>
+
+    <div id="paso3" class="oculto">
+      <p><strong>Escribe tu nombre en minúsculas:</strong></p>
+      <input type="text" id="nombre" placeholder="ej: juanita">
+      <button onclick="verificarMinusculas()">Verificar</button>
+      <p id="mensajeMinus" class="mensaje oculto"></p>
+    </div>
+
+    <div id="paso4" class="oculto">
+      <p><strong>Activa la tecla BloqMayús (mayúscula fija) y escribe tu nombre en mayúsculas:</strong></p>
+      <input type="text" id="mayus" placeholder="ej: JUANITA">
+      <button onclick="verificarMayusculas()">Verificar</button>
+      <p id="mensajeMayus" class="mensaje oculto"></p>
+    </div>
+
+    <div id="paso5" class="oculto">
+      <p><strong>Ahora escribe la palabra: Hola</strong></p>
+      <input type="text" id="bloq" placeholder="ej: Hola">
+      <button onclick="verificarBloq()">Verificar</button>
+      <p id="mensajeBloq" class="mensaje oculto"></p>
+    </div>
+
+    <div id="paso6" class="oculto">
+      <p><strong>Desplázate hacia abajo en este cuadro y encuentra la palabra mágica: Estrella 🌟</strong></p>
+      <div id="scrollBox" onscroll="detectarScroll()" style="height: 150px; overflow-y: scroll; border: 1px solid #999; padding: 10px;">
+        <p>Sigue bajando...</p>
+        <p style="margin-top: 200px;"><strong>¡Estrella! 🌟</strong></p>
+      </div>
+      <p id="mensajeScroll" class="mensaje oculto">¡Excelente! Has usado el scroll con éxito 🎉</p>
+    </div>
+
+    <div id="final" class="oculto">
+      <h3>🎉 ¡Felicitaciones!</h3>
+      <p>Terminaste la práctica básica. Sigue aprendiendo paso a paso. ¡Lo estás haciendo increíble! 💪</p>
+      <button onclick="alert('¡Gracias por participar!')">Terminar</button>
+    </div>
+  </div>
+
+  <script>
+    let pasoActual = 'Repaso';
+
+    function mostrarPaso(n) {
+      document.getElementById('paso' + pasoActual).classList.add('oculto');
+      document.getElementById('paso' + n).classList.remove('oculto');
+      pasoActual = n;
+    }
+
+    function eventoClicDerecho(e) {
+      e.preventDefault();
+      document.getElementById('mensajeClicDerecho').classList.remove('oculto');
+      setTimeout(() => mostrarPaso(3), 2000);
+    }
+
+    function verificarMinusculas() {
+      const val = document.getElementById('nombre').value;
+      const mensaje = document.getElementById('mensajeMinus');
+      if (val && val === val.toLowerCase()) {
+        mensaje.textContent = '¡Muy bien! Escribiste en minúsculas.';
+        mensaje.classList.remove('oculto');
+        setTimeout(() => mostrarPaso(4), 2000);
+      } else {
+        mensaje.textContent = 'Parece que hay mayúsculas. Intenta de nuevo con minúsculas.';
+        mensaje.classList.remove('oculto');
+      }
+    }
+
+    function verificarMayusculas() {
+      const val = document.getElementById('mayus').value;
+      const mensaje = document.getElementById('mensajeMayus');
+      if (val && val === val.toUpperCase()) {
+        mensaje.textContent = '¡Excelente! Usaste correctamente BloqMayús.';
+        mensaje.classList.remove('oculto');
+        setTimeout(() => mostrarPaso(5), 2000);
+      } else {
+        mensaje.textContent = 'Intenta escribir todo en mayúsculas con BloqMayús.';
+        mensaje.classList.remove('oculto');
+      }
+    }
+
+    function verificarBloq() {
+      const val = document.getElementById('bloq').value;
+      const mensaje = document.getElementById('mensajeBloq');
+      if (val === 'Hola') {
+        mensaje.textContent = '¡Muy bien! Escribiste correctamente "Hola" con mayúscula inicial.';
+        mensaje.classList.remove('oculto');
+        setTimeout(() => mostrarPaso(6), 2000);
+      } else {
+        mensaje.textContent = 'Recuerda escribir "Hola" con la primera letra mayúscula.';
+        mensaje.classList.remove('oculto');
+      }
+    }
+
+    function detectarScroll() {
+      const box = document.getElementById('scrollBox');
+      const mensaje = document.getElementById('mensajeScroll');
+      if (box.scrollTop + box.clientHeight >= box.scrollHeight) {
+        mensaje.classList.remove('oculto');
+        setTimeout(() => {
+          document.getElementById('paso' + pasoActual).classList.add('oculto');
+          document.getElementById('final').classList.remove('oculto');
+          pasoActual = 'final';
+        }, 2000);
+      }
+    }
+  </script>
+</body>
+</html>
