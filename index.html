@@ -53,22 +53,8 @@
       <h1 style="margin: 0; font-size: 1.6em;">Escuela Digital Huechuraba - Universidad Mayor</h1>
     </div>
 
-    <div id="pasoRepaso">
-      <h2>Repaso antes de comenzar</h2>
-      <ul>
-        <li>🖱️ <strong>Clic izquierdo:</strong> el botón principal del mouse, se usa para seleccionar o avanzar.</li>
-        <li>🖱️ <strong>Clic derecho:</strong> muestra un menú con más opciones. No siempre lo usaremos.</li>
-        <li>⌨️ <strong>Minúscula:</strong> ejemplo: <code>juanita</code></li>
-        <li>⬆️ <strong>Mayúscula (Shift):</strong> mantener presionada <strong>Shift</strong> y escribir: <code>JUANITA</code></li>
-        <li>🔒 <strong>BloqMayús (Mayúscula fija):</strong> activa las letras grandes sin mantener Shift.</li>
-        <li>✏️ <strong>Primera letra en mayúscula:</strong> <code>Juanita</code></li>
-      </ul>
-      <p>No te preocupes si algo no sale perfecto. ¡Estamos aprendiendo en grupo! 😊</p>
-      <button onclick="mostrarPaso(0)">Comenzar</button>
-    </div>
-
-    <div id="paso0" class="oculto">
-      <h2>Bienvenido/a al curso digital Huechuraba y Universidad Mayor</h2>
+    <div id="paso0">
+      <h2>Bienvenido/a al curso digital Huechuraba - Universidad Mayor</h2>
       <p>Vamos a practicar el uso del teclado y el mouse. No te preocupes por equivocarte, ¡lo importante es intentarlo! 😊</p>
       <button onclick="mostrarPaso(1)">Comenzar</button>
     </div>
@@ -109,20 +95,23 @@
       <p><strong>Desplázate hacia abajo en este cuadro y encuentra la palabra mágica: Estrella 🌟</strong></p>
       <div id="scrollBox" onscroll="detectarScroll()" style="height: 150px; overflow-y: scroll; border: 1px solid #999; padding: 10px;">
         <p>Sigue bajando...</p>
-        <p style="margin-top: 200px;"><strong>¡Estrella! 🌟</strong></p>
+        <p>Esto es parte del contenido para permitir el desplazamiento.</p>
+        <p>Continúa bajando un poco más...</p>
+        <p style="margin-top: 400px;"><strong>¡Estrella! 🌟</strong></p>
       </div>
       <p id="mensajeScroll" class="mensaje oculto">¡Excelente! Has usado el scroll con éxito 🎉</p>
     </div>
 
     <div id="final" class="oculto">
-      <h3>🎉 ¡Felicitaciones!</h3>
-      <p>Terminaste la práctica. Sigue aprendiendo paso a paso. ¡Lo estás haciendo increíble! 💪</p>
+      <h3 id="felicitacionFinal">🎉 ¡Felicitaciones!</h3>
+      <p>Terminaste la práctica básica. Sigue aprendiendo paso a paso. ¡Lo estás haciendo increíble! 💪</p>
       <button onclick="alert('¡Gracias por participar!')">Terminar</button>
     </div>
   </div>
 
   <script>
-    let pasoActual = 'Repaso';
+    let pasoActual = 0;
+    let nombrePersona = '';
 
     function mostrarPaso(n) {
       document.getElementById('paso' + pasoActual).classList.add('oculto');
@@ -140,6 +129,7 @@
       const val = document.getElementById('nombre').value;
       const mensaje = document.getElementById('mensajeMinus');
       if (val && val === val.toLowerCase()) {
+        nombrePersona = val.charAt(0).toUpperCase() + val.slice(1);
         mensaje.textContent = '¡Muy bien! Escribiste en minúsculas.';
         mensaje.classList.remove('oculto');
         setTimeout(() => mostrarPaso(4), 2000);
@@ -178,11 +168,12 @@
     function detectarScroll() {
       const box = document.getElementById('scrollBox');
       const mensaje = document.getElementById('mensajeScroll');
-      if (box.scrollTop + box.clientHeight >= box.scrollHeight) {
+      if (Math.ceil(box.scrollTop + box.clientHeight) >= box.scrollHeight) {
         mensaje.classList.remove('oculto');
         setTimeout(() => {
           document.getElementById('paso' + pasoActual).classList.add('oculto');
           document.getElementById('final').classList.remove('oculto');
+          document.getElementById('felicitacionFinal').textContent = '🎉 ¡Felicitaciones ' + nombrePersona + ', lo lograste!';
           pasoActual = 'final';
         }, 2000);
       }
